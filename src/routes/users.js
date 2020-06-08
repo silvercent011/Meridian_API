@@ -27,14 +27,13 @@ router.get('/', token, async (req, res) => {
 });
 
 router.post('/create', async (req, res) => {
-    const { email, password, nome } = req.body;
+    const { email, password, nome, level } = req.body;
     const created = Date.now()
     const { cpf } = req.body
     const _id = cpf
-    const data = { _id, cpf, email, password, nome, created }
+    const data = { _id, cpf, email, password, nome, created, level }
     await Users.create(data, (err, dados) => {
         if (err) return res.send({ error: err });
-
         dados.password = undefined;
         return res.send({ dados, token: createUserToken(dados._id) });
     });
