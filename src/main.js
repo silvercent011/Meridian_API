@@ -2,6 +2,10 @@ const config = require('./config')
 const port = process.env.PORT
 const express = require('express');
 const app = express();
+//BodyParser
+const bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 //Options
 const options = {
@@ -18,10 +22,6 @@ const url = process.env.MONGO_STRING
 mongoose.connect(url, options, () => { console.log('MongoDB Atlas localizado e conectado.') });
 mongoose.connection.useDb('meridian_scss')
 
-//BodyParser
-const bodyParser = require('body-parser');
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
 //Key
 const keyCheck = require('./auth/auth')
@@ -41,7 +41,7 @@ const usersRoute = require('./routes/users')
 app.use('/users', usersRoute)
 //Matific
 const matificRoute = require('./routes/matific')
-app.use('/matific',token, matificRoute)
+app.use('/matific', token, matificRoute)
 
 
 //SAIDA DE EXECUÇÃO

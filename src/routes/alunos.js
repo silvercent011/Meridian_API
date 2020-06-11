@@ -3,22 +3,28 @@ const router = express.Router();
 
 const Alunos = require('../models/aluno');
 
-router.get('/:id', async (req,res) => {
+router.get('/:id', async (req, res) => {
     const info = req.params;
-    const query = await Alunos.findOne({_id: info.id});
-    return res.send(query);
+    try {
+        if (!await Alunos.findOne({ _id: info.id })) return res.send({ error: 'Aluno não encontrado nos registros.' })
+        const query = await Alunos.findOne({ _id: info.id });
+        return res.send(query);
+    } catch (error) {
+        return res.send({ error: 'Erro na consulta de alunos!' })
+    }
 });
 
 router.get('/', async (req, res) => {
-    await Alunos.find({}, (err, data) => {
-        if (err) {
-            return res.send({ error: 'ERRO NA CONSULTA DE ALUNOS!' })
-        }
-        return res.send(data);
-    })
+    try {
+        if (!await Alunos.find({})) return res.send({ error: 'Erro na consulta de alunos!' })
+        const data = await Alunos.find({})
+        return res.send(data)
+    } catch (err) {
+        return res.send({ error: 'Erro na consulta de alunos!' })
+    }
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
     const { _id, matricula } = req.body
     const { nome, turma, nivel, dt_nascimento, turno } = req.body
     const created = Date.now()
@@ -27,10 +33,14 @@ router.post('/', (req, res) => {
         _id, matricula, nome, turma, nivel, dt_nascimento, turno, created
     }
 
-    Alunos.create(data, (err, dados) => {
-        if (error) return res.send({error: err});
-        return res.send(dados)
-    });
+    try {
+        if (!await Alunos.create(data)) return res.send({ error: 'Erro ao cadastrar aluno!' })
+        const aluno = await Alunos.create(data)
+        return res.send(aluno)
+    } catch (error) {
+        return res.send({ error: 'Erro ao cadastrar aluno!' })
+    }
+
     console.log(`Aluno ${nome} criado no BD em ${created}`);
 });
 

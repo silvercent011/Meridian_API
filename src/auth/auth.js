@@ -5,7 +5,7 @@ const checkKey = (req, res, next) => {
         next()
     }
     else {
-        return res.send({ error: "KeyInválida" })
+        return res.send({ error: "Key Inválida" })
     }
 }
 

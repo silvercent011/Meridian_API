@@ -13,46 +13,66 @@ const Users = require('../models/user');
 
 router.get('/:id', token, async (req, res) => {
     info = req.params
-    await Users.findOne({ _id: info.id }, (err, data) => {
-        if (err) return res.send({ error: "ERRO NA CONSULTA DE USUÁRIOS" })
-        res.send(data);
-    });
+
+    try {
+        if (!await Users.findOne({ _id: info.id })) return res.send({ error: "Usuário não encontrado" });
+        const aluno = await Users.findOne({ _id: info.id });
+        return res.send(aluno)
+    } catch (err) {
+        return res.send({ error: "ERRO NA CONSULTA DE USUÁRIOS" })
+    }
+
 });
 
 router.get('/', token, async (req, res) => {
-    await Users.find({}, (err, data) => {
-        if (err) return res.send({ error: "ERRO NA CONSULTA DE USUÁRIOS" })
-        res.send(data);
-    });
+    try {
+        const users = await Users.find({});
+        return res.send(users)
+    } catch (err) {
+        return res.send({ error: "ERRO NA CONSULTA DE USUÁRIOS" })
+    }
+
 });
 
 router.post('/create', async (req, res) => {
-    const { email, password, nome, level } = req.body;
+    const { email, password, nome, level, cpf } = req.body;
+
+    if (!email || !password || !nome || !level || !cpf) return res.send({ error: "Dados insuficientes" })
+
     const created = Date.now()
-    const { cpf } = req.body
     const _id = cpf
     const data = { _id, cpf, email, password, nome, created, level }
-    await Users.create(data, (err, dados) => {
-        if (err) return res.send({ error: err });
-        dados.password = undefined;
-        return res.send({ dados, token: createUserToken(dados._id) });
-    });
+
+    try {
+        if (!await Users.create(data)) return res.send({ error: "ERRO AO CADASTRAR USUÁRIO" });
+        const sendUser = await Users.create(data)
+        sendUser.password = undefined
+        return res.send({ sendUser, token: createUserToken(sendUser._id) });
+    } catch (err) {
+        return res.send({ error: "ERRO AO CADASTRAR USUÁRIO" });
+    }
 });
 
 router.post('/auth', async (req, res) => {
     const { cpf, password } = req.body;
     if (!cpf || !password) return res.send({ error: "Dados insuficientes" })
 
-    await Users.findOne({ _id: cpf }, (err, data) => {
-        if (err) return res.send({ error: "Erro ao buscar usuário!" });
+    try {
+        const userData = await Users.findOne({ _id: cpf }).select('+password')
+        if (!userData){
+            return res.send({ error: "Usuário não encontrado" })
+        }
 
-        bcrypt.compare(password, data.password, (err, same) => {
-            if (!same) return res.send({ error: "Senha incorreta" })
-
-            data.password = undefined;
-            return res.send({ data, token: createUserToken(data._id) });
-        })
-    }).select('+password');
+        const passwordCheck = await bcrypt.compare(password, userData.password)
+        if (!passwordCheck) {
+            return res.send({ error: "Senha incorreta" })
+        }
+        
+        userData.password = undefined
+        return res.send({ userData, token: createUserToken(userData._id) });
+    } catch (err) {
+        return res.send({ error: "Erro ao autenticar usuário!" });
+    }
 });
 
 module.exports = router;
