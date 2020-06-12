@@ -19,7 +19,7 @@ router.get('/:id', async (req, res) => {
 
 });
 
-router.get('matific/:id', async (req, res) => {
+router.get('/matific/:id', async (req, res) => {
     const info = req.params;
 
     try {
