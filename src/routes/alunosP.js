@@ -3,6 +3,7 @@ const router = express.Router();
 
 const Alunos = require('../models/aluno');
 const MatificUser = require('../models/matific_user');
+const InspiraUser = require('../models/inspira_user');
 
 router.get('/:id', async (req, res) => {
     const info = req.params;
@@ -26,6 +27,20 @@ router.get('/matific/:id', async (req, res) => {
         if (!await MatificUser.findOne({ _id: info.id })) return res.send({ error: 'Aluno não encontrado nos registros.' })
         const matific = await MatificUser.findOne({ _id: info.id });
         return res.send(matific)
+
+    } catch (error) {
+        return res.send({ error: "Aluno não encontrado" })
+    }
+
+});
+
+router.get('/inspira/:id', async (req, res) => {
+    const info = req.params;
+
+    try {
+        if (!await InspiraUser.findOne({ _id: info.id })) return res.send({ error: 'Aluno não encontrado nos registros.' })
+        const inspira = await InspiraUser.findOne({ _id: info.id });
+        return res.send(inspira)
 
     } catch (error) {
         return res.send({ error: "Aluno não encontrado" })
