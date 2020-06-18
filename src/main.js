@@ -45,6 +45,9 @@ app.use('/matific', token, matificRoute)
 //Inspira
 const inspiraRoute = require('./routes/inspira')
 app.use('/inspira', token, inspiraRoute)
+//Resources
+const resourcesRoute = require('./routes/resources')
+app.use('/resources', token, resourcesRoute)
 
 
 //SAIDA DE EXECUÇÃO

@@ -34,7 +34,7 @@ router.post('/', async (req, res) => {
     }
 
     try {
-        if (!await Alunos.create(data)) return res.send({ error: 'Erro ao cadastrar aluno!' })
+        if (await Alunos.findOne({_id:_id})) return res.send({error:'Matricula já cadastrada'})
         const aluno = await Alunos.create(data)
         return res.send(aluno)
     } catch (error) {

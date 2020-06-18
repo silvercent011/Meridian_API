@@ -44,7 +44,6 @@ router.post('/create', async (req, res) => {
     const data = { _id, cpf, email, password, nome, created, level }
 
     try {
-        if (!await Users.create(data)) return res.send({ error: "ERRO AO CADASTRAR USUÁRIO" });
         const sendUser = await Users.create(data)
         sendUser.password = undefined
         return res.send({ sendUser, token: createUserToken(sendUser._id) });
@@ -59,7 +58,7 @@ router.post('/auth', async (req, res) => {
 
     try {
         const userData = await Users.findOne({ _id: cpf }).select('+password')
-        if (!userData){
+        if (!userData) {
             return res.send({ error: "Usuário não encontrado" })
         }
 
@@ -67,7 +66,7 @@ router.post('/auth', async (req, res) => {
         if (!passwordCheck) {
             return res.send({ error: "Senha incorreta" })
         }
-        
+
         userData.password = undefined
         return res.send({ userData, token: createUserToken(userData._id) });
     } catch (err) {
