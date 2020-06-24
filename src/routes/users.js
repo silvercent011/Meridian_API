@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const token = require('../auth/jsonauth')
+const keyCheck = require('../auth/auth')
 
 //funcaoAuxiliar
 const createUserToken = (userId) => {
@@ -34,7 +35,7 @@ router.get('/', token, async (req, res) => {
 
 });
 
-router.post('/create', async (req, res) => {
+router.post('/create', keyCheck, async (req, res) => {
     const { email, password, nome, level, cpf } = req.body;
 
     if (!email || !password || !nome || !level || !cpf) return res.send({ error: "Dados insuficientes" })
