@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
-const InspiraSchema = new Schema({
+const EstudaSchema = new Schema({
     _id: { type: String, required: true, unique: true },
     nome: { type: String, required: true },
     email: { type: String, required: true },
@@ -10,6 +10,6 @@ const InspiraSchema = new Schema({
     turma: { type: String, required: true },
     created: { type: Date, default: null },
     updated: { type: Date, default: null }
-})
+});
 
-module.exports = mongoose.model('Inspira', InspiraSchema, 'inspira')
+module.exports = mongoose.model('Estuda', EstudaSchema, 'estuda')

@@ -7,7 +7,8 @@ const MatificUser = new Schema({
     password: { type: String, required: true },
     nome: { type: String, required: true },
     turma: { type: String, default: null },
-    created: { type: Date, default: null }
+    created: { type: Date, default: null },
+    updated: { type: Date, default: null },
 })
 
 module.exports = mongoose.model('MatificUser', MatificUser, "matific")

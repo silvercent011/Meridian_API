@@ -4,6 +4,7 @@ const router = express.Router();
 const Alunos = require('../models/aluno');
 const MatificUser = require('../models/matific_user');
 const InspiraUser = require('../models/inspira_user');
+const EstudaUser = require('../models/estudaDotCom');
 
 router.get('/:id', async (req, res) => {
     const info = req.params;
@@ -34,6 +35,20 @@ router.get('/matific/:id', async (req, res) => {
 
 });
 
+
+router.get('/estuda/:id', async (req, res) => {
+    const info = req.params;
+
+    try {
+        if (!await EstudaUser.findOne({ _id: info.id })) return res.send({ error: 'Aluno não encontrado nos registros.' })
+        const Estuda = await EstudaUser.findOne({ _id: info.id });
+        return res.send(Estuda)
+
+    } catch (error) {
+        return res.send({ error: "Aluno não encontrado" })
+    }
+
+});
 router.get('/inspira/:id', async (req, res) => {
     const info = req.params;
 

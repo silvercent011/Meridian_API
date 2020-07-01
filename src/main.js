@@ -39,12 +39,18 @@ app.use('/alunos', token, alunosRoute);
 // Users
 const usersRoute = require('./routes/users')
 app.use('/users', usersRoute)
+// Posts
+const postsRoute = require('./routes/posts')
+app.use('/posts', postsRoute)
 //Matific
 const matificRoute = require('./routes/matific')
 app.use('/matific', token, matificRoute)
 //Inspira
 const inspiraRoute = require('./routes/inspira')
 app.use('/inspira', token, inspiraRoute)
+//Estuda
+const estudaRoute = require('./routes/estuda')
+app.use('/estuda', token, estudaRoute)
 //Resources
 const resourcesRoute = require('./routes/resources')
 app.use('/resources', token, resourcesRoute)

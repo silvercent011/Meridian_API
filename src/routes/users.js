@@ -69,7 +69,7 @@ router.post('/auth', async (req, res) => {
         }
 
         userData.password = undefined
-        return res.send({ userData, token: createUserToken(userData._id) });
+        return res.send({ userData, passed: true, token: createUserToken(userData._id) });
     } catch (err) {
         return res.send({ error: "Erro ao autenticar usuário!" });
     }

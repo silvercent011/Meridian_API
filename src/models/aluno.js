@@ -10,7 +10,10 @@ const AlunoSchema = new Schema({
     nivel: { type: String, required: true },
     turma: { type: String, required: true },
     turno: { type: String, required: true },
-    created: { type: Date, default: null }
+    email: {type: String, default: null},
+    created: { type: Date, default: null },
+    updated: { type: Date, default: null },
+    enabled: { type: Boolean, default: true}
 });
 
 module.exports = mongoose.model('Aluno', AlunoSchema, 'alunos')

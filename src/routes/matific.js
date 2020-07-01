@@ -56,5 +56,30 @@ router.post('/create', async (req, res) => {
 
 })
 
+router.patch('/:id', async(req,res) => {
+    const _id = req.params.id
+    const query = await req.body
+    const filter = {_id:_id}
+    const updated = Date.now()
+
+    try {
+        if (! await MatificUser.findOne({_id:_id})) return res.send({error: 'Cadastro não encontrado nos registros'})
+        const MatificGet = await MatificUser.findOne({_id:_id});
+        const data = { updated }
+        for (const key in query) {
+            if (MatificGet[key] != query[key] ) {
+                data[key] = query[key];
+            }
+        }
+
+        const dataUpdated = await MatificUser.findOneAndUpdate(filter,data,{returnOriginal: false});
+        return res.send(await MatificUser.findOne({_id:_id}))
+        
+    } catch (error) {
+        return res.send({error: 'Não foi possível atualizar os dados do cadastro no momento.'})
+    }
+
+});
+
 
 module.exports = router;

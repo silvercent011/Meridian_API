@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 
-const Inspira = require('../models/inspira_user');
+const Estuda = require('../models/estudaDotCom');
 const Aluno = require('../models/aluno');
 
 router.get('/', async (req, res) => {
     try {
-        if (!await Inspira.find({})) return res.send({ error: 'Nenhum cadastro da plataforma encontrado' })
-        const inspiraUsers = await Inspira.find({})
-        return res.send(inspiraUsers)
+        if (!await Estuda.find({})) return res.send({ error: 'Nenhum cadastro da plataforma encontrado' })
+        const estudaUsers = await Estuda.find({})
+        return res.send(estudaUsers)
     } catch (error) {
         return res.send({ error: 'Erro ao consultar dados' })
     }
@@ -17,9 +17,9 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     const info = req.params;
     try {
-        if (!await Inspira.findOne({ _id: info.id })) return res.send({ error: 'Aluno não encontrado' })
-        const inspiraUsers = await Inspira.findOne({ _id: info.id })
-        return res.send(inspiraUsers)
+        if (!await Estuda.findOne({ _id: info.id })) return res.send({ error: 'Aluno não encontrado' })
+        const estudaUsers = await Estuda.findOne({ _id: info.id })
+        return res.send(estudaUsers)
     } catch (error) {
         return res.send({ error: 'Erro ao consultar dados' })
     }
@@ -48,8 +48,8 @@ router.post('/', async (req, res) => {
     }
 
     try {
-        const InspiraSend = await Inspira.create(data)
-        return res.send(InspiraSend)
+        const estudaSend = await Estuda.create(data)
+        return res.send(estudaSend)
     } catch (err) {
         return res.send({ error: "Erro ao enviar dados" })
     }
@@ -63,17 +63,17 @@ router.patch('/:id', async(req,res) => {
     const updated = Date.now()
 
     try {
-        if (! await Inspira.findOne({_id:_id})) return res.send({error: 'Cadastro não encontrado nos registros'})
-        const InspiraGet = await Inspira.findOne({_id:_id});
+        if (! await Estuda.findOne({_id:_id})) return res.send({error: 'Cadastro não encontrado nos registros'})
+        const EstudaGet = await Estuda.findOne({_id:_id});
         const data = { updated }
         for (const key in query) {
-            if (InspiraGet[key] != query[key] ) {
+            if (EstudaGet[key] != query[key] ) {
                 data[key] = query[key];
             }
         }
 
-        const dataUpdated = await Inspira.findOneAndUpdate(filter,data,{returnOriginal: false});
-        return res.send(await Inspira.findOne({_id:_id}))
+        const dataUpdated = await Estuda.findOneAndUpdate(filter,data,{returnOriginal: false});
+        return res.send(await Estuda.findOne({_id:_id}))
         
     } catch (error) {
         return res.send({error: 'Não foi possível atualizar os dados do cadastro no momento.'})
