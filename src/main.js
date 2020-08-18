@@ -2,7 +2,9 @@ const config = require('./config')
 const port = process.env.PORT
 const express = require('express');
 const app = express();
+//cors
 const cors = require('cors');
+app.use(cors());
 //BodyParser
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -57,7 +59,6 @@ const resourcesRoute = require('./routes/resources')
 app.use('/resources', token, resourcesRoute)
 
 
-app.use(cors());
 //SAIDA DE EXECUÇÃO
 app.listen(port, () => {
     console.clear();
