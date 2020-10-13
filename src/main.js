@@ -57,8 +57,16 @@ app.use('/estuda', token, estudaRoute)
 //Resources
 const resourcesRoute = require('./routes/resources')
 app.use('/resources', token, resourcesRoute)
+//ListaInteresses
+const listaInteresseRoute = require('./routes/listaInteresse')
+app.use('/listint', listaInteresseRoute)
 
 
+<<<<<<< HEAD
+app.use(cors());
+
+=======
+>>>>>>> 29d2f39bb420125bd7c1efd18e8904fade330f47
 //SAIDA DE EXECUÇÃO
 app.listen(port, () => {
     console.clear();
