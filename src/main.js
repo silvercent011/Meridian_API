@@ -60,6 +60,9 @@ app.use('/resources', token, resourcesRoute)
 //ListaInteresses
 const listaInteresseRoute = require('./routes/listaInteresse')
 app.use('/listint', listaInteresseRoute)
+//Voucher
+const voucherRoute = require('./routes/voucherKey')
+app.use('/voucher', token, voucherRoute)
 
 
 app.use(cors());
