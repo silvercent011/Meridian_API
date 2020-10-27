@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const Voucher = require('../models/voucher');
+const Aluno = require('../models/aluno');
 
 router.get('/', async (req, res) => {
     try {
@@ -25,6 +26,35 @@ router.get('/:id', async (req, res) => {
 })
 
 
+router.post('/create', async (req, res) => {
+    let aluno = await req.body;
+    let { matricula, email, voucher, nome } = aluno
+    if (!matricula || !email || !voucher || !nome) return res.send({ error: "Dados insuficientes" })
+
+    try {
+        const alunoData = await Aluno.findOne({ _id: matricula })
+        turma = alunoData.turma
+    } catch (err) {
+        return res.send({ error: "Aluno não encontrado" })
+    }
+
+    let data = {
+        _id: matricula,
+        created: Date.now(),
+        turma: turma,
+        email: email,
+        voucher: voucher,
+        nome: nome
+    }
+
+    try {
+        const VoucherSend = await Voucher.create(data)
+        return res.send(VoucherSend)
+    } catch (err) {
+        return res.send({ error: "Erro ao enviar dados" })
+    }
+
+})
 router.patch('/:id', async(req,res) => {
     const _id = req.params.id
     const query = await req.body
@@ -36,7 +66,7 @@ router.patch('/:id', async(req,res) => {
         const VoucherGet = await Voucher.findOne({_id:_id});
         const data = { updated }
         for (const key in query) {
-            if (MatificGet[key] != query[key] ) {
+            if (VoucherGet[key] != query[key] ) {
                 data[key] = query[key];
             }
         }
