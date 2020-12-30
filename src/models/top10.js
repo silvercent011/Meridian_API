@@ -7,8 +7,9 @@ const Top10 = new Schema({
     desconto: { type: String, default: null },
     mat: { type: String, default: null },
     port: { type: String, default: null },
-    red: { type: Date, default: null },
-    media: { type: Date, default: null },
+    red: { type: String, default: null },
+    media: { type: String, default: null },
+    created: { type: Date, default: null },
 })
 
 module.exports = mongoose.model('Top10', Top10, "top10")
