@@ -39,7 +39,7 @@ router.post('/create', async (req, res) => {
         mat: mat,
         port: port,
         red: red,
-        posisao: posicao,
+        posicao: posicao,
         media: media,
     }
 
