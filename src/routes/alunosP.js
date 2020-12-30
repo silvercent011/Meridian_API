@@ -6,6 +6,7 @@ const MatificUser = require('../models/matific_user');
 const InspiraUser = require('../models/inspira_user');
 const EstudaUser = require('../models/estudaDotCom');
 const VoucherUser = require('../models/voucher');
+const Top10User = require('../models/top10');
 
 router.get('/:id', async (req, res) => {
     const info = req.params;
@@ -18,6 +19,34 @@ router.get('/:id', async (req, res) => {
         return res.send(query);
     } else {
         return res.send({ error: "Dados não conferem" })
+    }
+
+});
+
+router.get('/basic/:id', async (req, res) => {
+    const info = req.params;
+
+    try {
+        if (!await Alunos.findOne({ _id: info.id })) return res.send({ error: 'Aluno não encontrado nos registros.' })
+        const query = await Alunos.findOne({ _id: info.id });
+        return res.send(query)
+    } catch (error) {
+        return res.send({ error: "Aluno não encontrado" })
+    }
+
+});
+
+
+router.get('/top10/:id', async (req, res) => {
+    const info = req.params;
+
+    try {
+        if (!await Top10User.findOne({ _id: info.id })) return res.send({ error: 'Aluno não encontrado nos registros.' })
+        const tp10 = await Top10User.findOne({ _id: info.id });
+        return res.send(tp10)
+
+    } catch (error) {
+        return res.send({ error: "Aluno não encontrado" })
     }
 
 });

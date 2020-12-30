@@ -63,6 +63,9 @@ app.use('/listint', listaInteresseRoute)
 //Voucher
 const voucherRoute = require('./routes/voucherKey')
 app.use('/voucher', token, voucherRoute)
+//Top10
+const top10Route = require('./routes/top10s')
+app.use('/top10', token, top10Route)
 
 
 app.use(cors());
