@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const Top10 = require('../models/voucher');
+const Top10 = require('../models/top10');
 const Aluno = require('../models/aluno');
 
 router.get('/', async (req, res) => {
