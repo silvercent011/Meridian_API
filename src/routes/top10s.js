@@ -29,7 +29,7 @@ router.get('/:id', async (req, res) => {
 router.post('/create', async (req, res) => {
     let aluno = await req.body;
     let { matricula, nome, desconto, mat, port, red, media, posicao } = aluno
-    if (!matricula || !nome || !desconto || !mat || !port|| !red || !media) return res.send({ error: "Dados insuficientes" })
+    if (!matricula || !nome || !desconto || !mat || !port|| !red || !media || !posicao) return res.send({ error: "Dados insuficientes" })
 
     let data = {
         _id: matricula,
@@ -44,8 +44,8 @@ router.post('/create', async (req, res) => {
     }
 
     try {
-        const VoucherSend = await Top10.create(data)
-        return res.send(VoucherSend)
+        const TP10Send = await Top10.create(data)
+        return res.send(TP10Send)
     } catch (err) {
         return res.send({ error: "Erro ao enviar dados" })
     }
