@@ -28,7 +28,7 @@ router.get('/:id', async (req, res) => {
 
 router.post('/create', async (req, res) => {
     let aluno = await req.body;
-    let { matricula, nome, desconto, mat, port, red, media } = aluno
+    let { matricula, nome, desconto, mat, port, red, media, posicao } = aluno
     if (!matricula || !nome || !desconto || !mat || !port|| !red || !media) return res.send({ error: "Dados insuficientes" })
 
     let data = {
@@ -39,6 +39,7 @@ router.post('/create', async (req, res) => {
         mat: mat,
         port: port,
         red: red,
+        posisao: posicao,
         media: media,
     }
 

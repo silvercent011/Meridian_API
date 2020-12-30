@@ -9,6 +9,7 @@ const Top10 = new Schema({
     port: { type: String, default: null },
     red: { type: String, default: null },
     media: { type: String, default: null },
+    posicao: { type: String, default: null },
     created: { type: Date, default: null },
 })
 
