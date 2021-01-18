@@ -45,35 +45,22 @@ app.use('/users', usersRoute)
 // Posts
 const postsRoute = require('./routes/posts')
 app.use('/posts', postsRoute)
-//Matific
-const matificRoute = require('./routes/matific')
-app.use('/matific', token, matificRoute)
-//Inspira
-const inspiraRoute = require('./routes/inspira')
-app.use('/inspira', token, inspiraRoute)
-//Estuda
-const estudaRoute = require('./routes/estuda')
-app.use('/estuda', token, estudaRoute)
 //Resources
 const resourcesRoute = require('./routes/resources')
 app.use('/resources', token, resourcesRoute)
 //ListaInteresses
 const listaInteresseRoute = require('./routes/listaInteresse')
 app.use('/listint', listaInteresseRoute)
-//Voucher
-const voucherRoute = require('./routes/voucherKey')
-app.use('/voucher', token, voucherRoute)
-//Top10
-const top10Route = require('./routes/top10s')
-app.use('/top10', token, top10Route)
-
+//Services
+const ServicesRoute = require('./routes/servicesRoute')
+app.use('/services', ServicesRoute)
 
 app.use(cors());
 
 //SAIDA DE EXECUÇÃO
 app.listen(port, () => {
     console.clear();
-    console.log('Sidney Alex, 2020, Meridian ScSS WebAPI')
+    console.log('Sidney Alex, 2021, Meridian ScSS WebAPI')
     console.log(`API RODANDO NA PORTA ${port}`);
     console.log('-----------------------------------------')
 });
