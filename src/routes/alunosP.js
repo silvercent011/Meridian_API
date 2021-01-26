@@ -10,7 +10,7 @@ const Top10User = require('../models/top10');
 
 router.get('/:id', async (req, res) => {
     const info = req.params;
-    const { dt_nascimento } = req.body
+    const { dt_nascimento } = req.headers
 
     if (!await Alunos.findOne({ _id: info.id })) return res.send({ error: 'Aluno não encontrado nos registros.' })
     const query = await Alunos.findOne({ _id: info.id });
@@ -22,6 +22,7 @@ router.get('/:id', async (req, res) => {
     }
 
 });
+
 
 router.get('/basic/:id', async (req, res) => {
     const info = req.params;
