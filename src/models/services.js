@@ -4,7 +4,8 @@ const schema = mongoose.Schema;
 const ServiceSchema = ({
     // _id: {type: String, unique:true},
     matricula: {type: String, required:true},
-    services: {type: Map, of: Map},
+    serviceName: {type: String, required:true},
+    data: {type: Map, of: Map},
     created: { type: Date, default: null },
     updated: { type: Date, default: null },
     enabled: { type: Boolean, default: true}

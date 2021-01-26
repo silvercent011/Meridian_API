@@ -46,7 +46,7 @@ router.patch('/:id', keyCheck ,async(req,res) => {
 
     try {
         if (! await Services.findOne({_id:_id})) return res.send({error: 'Serviço não encontrado nos registros'})
-        const Aluno = await Services.findOne({_id:_id});
+        const Service = await Services.findOne({_id:_id});
         const data = { updated, query }
         const dataUpdated = await Services.findOneAndUpdate(filter,data,{returnOriginal: false});
         return res.send(await Services.findOne({_id:_id}))
@@ -64,7 +64,7 @@ router.delete('/:id', keyCheck , async(req,res) => {
 
     try {
         if (! await Services.findOne({_id:_id})) return res.send({error: 'Serviço não encontrado nos registros'})
-        const data = { enabled: false }
+        const data = { updated, enabled: false }
 
         const dataUpdated = await Services.findOneAndUpdate(filter,data,{returnOriginal: false});
         return res.send(await Services.findOne({_id:_id}))
