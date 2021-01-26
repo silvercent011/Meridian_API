@@ -4,6 +4,16 @@ const router = express.Router();
 const Alunos = require('../models/aluno');
 const { update } = require('../models/aluno');
 
+router.get('/', async (req, res) => {
+    try {
+        if (!await Alunos.find({})) return res.send({ error: 'Erro na consulta de alunos!' })
+        const data = await Alunos.find({})
+        return res.send(data)
+    } catch (err) {
+        return res.send({ error: 'Erro na consulta de alunos!' })
+    }
+});
+
 router.get('/:id', async (req, res) => {
     const info = req.params;
     try {
@@ -15,15 +25,6 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.get('/', async (req, res) => {
-    try {
-        if (!await Alunos.find({})) return res.send({ error: 'Erro na consulta de alunos!' })
-        const data = await Alunos.find({})
-        return res.send(data)
-    } catch (err) {
-        return res.send({ error: 'Erro na consulta de alunos!' })
-    }
-});
 
 router.post('/', async (req, res) => {
     const { _id, matricula } = req.body

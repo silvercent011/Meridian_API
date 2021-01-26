@@ -2,11 +2,6 @@ const express = require('express');
 const router = express.Router();
 
 const Alunos = require('../models/aluno');
-const MatificUser = require('../models/matific_user');
-const InspiraUser = require('../models/inspira_user');
-const EstudaUser = require('../models/estudaDotCom');
-const VoucherUser = require('../models/voucher');
-const Top10User = require('../models/top10');
 
 router.get('/:id', async (req, res) => {
     const info = req.params;
@@ -31,77 +26,6 @@ router.get('/basic/:id', async (req, res) => {
         if (!await Alunos.findOne({ _id: info.id })) return res.send({ error: 'Aluno não encontrado nos registros.' })
         const query = await Alunos.findOne({ _id: info.id });
         return res.send(query)
-    } catch (error) {
-        return res.send({ error: "Aluno não encontrado" })
-    }
-
-});
-
-
-router.get('/top10/:id', async (req, res) => {
-    const info = req.params;
-
-    try {
-        if (!await Top10User.findOne({ _id: info.id })) return res.send({ error: 'Aluno não encontrado nos registros.' })
-        const tp10 = await Top10User.findOne({ _id: info.id });
-        return res.send(tp10)
-
-    } catch (error) {
-        return res.send({ error: "Aluno não encontrado" })
-    }
-
-});
-
-router.get('/matific/:id', async (req, res) => {
-    const info = req.params;
-
-    try {
-        if (!await MatificUser.findOne({ _id: info.id })) return res.send({ error: 'Aluno não encontrado nos registros.' })
-        const matific = await MatificUser.findOne({ _id: info.id });
-        return res.send(matific)
-
-    } catch (error) {
-        return res.send({ error: "Aluno não encontrado" })
-    }
-
-});
-
-
-router.get('/estuda/:id', async (req, res) => {
-    const info = req.params;
-
-    try {
-        if (!await EstudaUser.findOne({ _id: info.id })) return res.send({ error: 'Aluno não encontrado nos registros.' })
-        const Estuda = await EstudaUser.findOne({ _id: info.id });
-        return res.send(Estuda)
-
-    } catch (error) {
-        return res.send({ error: "Aluno não encontrado" })
-    }
-
-});
-router.get('/inspira/:id', async (req, res) => {
-    const info = req.params;
-
-    try {
-        if (!await InspiraUser.findOne({ _id: info.id })) return res.send({ error: 'Aluno não encontrado nos registros.' })
-        const inspira = await InspiraUser.findOne({ _id: info.id });
-        return res.send(inspira)
-
-    } catch (error) {
-        return res.send({ error: "Aluno não encontrado" })
-    }
-
-});
-
-router.get('/voucher/:id', async (req, res) => {
-    const info = req.params;
-
-    try {
-        if (!await VoucherUser.findOne({ _id: info.id })) return res.send({ error: 'Aluno não encontrado nos registros.' })
-        const inspira = await VoucherUser.findOne({ _id: info.id });
-        return res.send(inspira)
-
     } catch (error) {
         return res.send({ error: "Aluno não encontrado" })
     }
