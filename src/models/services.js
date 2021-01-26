@@ -2,11 +2,12 @@ const mongoose = require('mongoose');
 const schema = mongoose.Schema;
 
 const ServiceSchema = ({
-    _id: {type: String, required:true, unique:true},
-    matricula: {type: String, required:true, unique:true},
-    services: {type: Map, of: String},
+    // _id: {type: String, unique:true},
+    matricula: {type: String, required:true},
+    services: {type: Map, of: Map},
     created: { type: Date, default: null },
     updated: { type: Date, default: null },
+    enabled: { type: Boolean, default: true}
 })
 
 module.exports = mongoose.model('ServiceSchema', ServiceSchema, "services")
