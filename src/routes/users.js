@@ -20,7 +20,7 @@ router.get('/:id', token, async (req, res) => {
         const aluno = await Users.findOne({ _id: info.id });
         return res.send(aluno)
     } catch (err) {
-        return res.send({ error: "ERRO NA CONSULTA DE USUÁRIOS" })
+        return res.status(400).send({ error: "ERRO NA CONSULTA DE USUÁRIOS" })
     }
 
 });
@@ -30,7 +30,7 @@ router.get('/', token, async (req, res) => {
         const users = await Users.find({});
         return res.send(users)
     } catch (err) {
-        return res.send({ error: "ERRO NA CONSULTA DE USUÁRIOS" })
+        return res.status(400).send({ error: "ERRO NA CONSULTA DE USUÁRIOS" })
     }
 
 });
@@ -47,9 +47,9 @@ router.post('/create', keyCheck, async (req, res) => {
     try {
         const sendUser = await Users.create(data)
         sendUser.password = undefined
-        return res.send({ sendUser, token: createUserToken(sendUser._id) });
+        return res.status(201).send({ sendUser, token: createUserToken(sendUser._id) });
     } catch (err) {
-        return res.send({ error: "ERRO AO CADASTRAR USUÁRIO" });
+        return res.status(400).send({ error: "ERRO AO CADASTRAR USUÁRIO" });
     }
 });
 
@@ -71,7 +71,7 @@ router.post('/auth', async (req, res) => {
         userData.password = undefined
         return res.send({ userData, passed: true, token: createUserToken(userData._id) });
     } catch (err) {
-        return res.send({ error: "Erro ao autenticar usuário!" });
+        return res.status(400).send({ error: "Erro ao autenticar usuário!" });
     }
 });
 

@@ -40,9 +40,9 @@ router.post('/', async (req, res) => {
             return response
         })
 
-        return res.send(interessado)
+        return res.status(201).send(interessado)
     } catch (error) {
-        return res.send(error)
+        return res.status(400).send(error)
     }
 });
 
