@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
         const posts = await Posts.find({});
         return res.send(posts)
     } catch (err) {
-        return res.send({ error: "ERRO NA CONSULTA DE POSTS" })
+        return res.status(400).send({ error: "ERRO NA CONSULTA DE POSTS" })
     }
 });
 
@@ -19,11 +19,11 @@ router.get('/:id', token, async (req, res) => {
     info = req.params
 
     try {
-        if (!await Posts.findOne({ _id: info.id })) return res.send({ error: "Post não encontrado" });
+        if (!await Posts.findOne({ _id: info.id })) return res.status(400).send({ error: "Post não encontrado" });
         const postGet = await Posts.findOne({ _id: info.id });
         return res.send(postGet)
     } catch (err) {
-        return res.send({ error: "ERRO NA CONSULTA DE POSTS" })
+        return res.status(400).send({ error: "ERRO NA CONSULTA DE POSTS" })
     }
 
 });
@@ -31,16 +31,16 @@ router.get('/:id', token, async (req, res) => {
 router.post('/', token, async (req, res) => {
     const { title, content, expires } = req.body;
 
-    if (!title || !content || !expires) return res.send({ error: "Dados insuficientes" })
+    if (!title || !content || !expires) return res.status(400).send({ error: "Dados insuficientes" })
 
     const created = Date.now()
     const data = { title:title, content:content, expires: new Date(expires), created: created, updated: created }
 
     try {
         const sendPost = await Posts.create(data)
-        return res.send(sendPost);
+        return res.status(201).send(sendPost);
     } catch (err) {
-        return res.send({ error: "ERRO AO CRIAR POST" });
+        return res.status(400).send({ error: "ERRO AO CRIAR POST" });
     }
 });
 
