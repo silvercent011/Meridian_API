@@ -16,7 +16,7 @@ router.get('/:id', token, async (req, res) => {
     info = req.params
 
     try {
-        if (!await Users.findOne({ _id: info.id })) return res.send({ error: "Usuário não encontrado" });
+        if (!await Users.findOne({ _id: info.id })) return res.status(400).send({ error: "Usuário não encontrado" });
         const aluno = await Users.findOne({ _id: info.id });
         return res.send(aluno)
     } catch (err) {
@@ -38,7 +38,7 @@ router.get('/', token, async (req, res) => {
 router.post('/create', keyCheck, async (req, res) => {
     const { email, password, nome, level, cpf } = req.body;
 
-    if (!email || !password || !nome || !level || !cpf) return res.send({ error: "Dados insuficientes" })
+    if (!email || !password || !nome || !level || !cpf) return res.status(400).send({ error: "Dados insuficientes" })
 
     const created = Date.now()
     const _id = cpf
@@ -55,17 +55,17 @@ router.post('/create', keyCheck, async (req, res) => {
 
 router.post('/auth', async (req, res) => {
     const { cpf, password } = req.body;
-    if (!cpf || !password) return res.send({ error: "Dados insuficientes" })
+    if (!cpf || !password) return res.status(400).send({ error: "Dados insuficientes" })
 
     try {
         const userData = await Users.findOne({ _id: cpf }).select('+password')
         if (!userData) {
-            return res.send({ error: "Usuário não encontrado" })
+            return res.status(400).send({ error: "Usuário não encontrado" })
         }
 
         const passwordCheck = await bcrypt.compare(password, userData.password)
         if (!passwordCheck) {
-            return res.send({ error: "Senha incorreta" })
+            return res.status(400).send({ error: "Senha incorreta" })
         }
 
         userData.password = undefined
