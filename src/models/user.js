@@ -9,7 +9,8 @@ const UserSchema = new Schema({
     password: { type: String, required: true, select: false },
     nome: { type: String, required: true },
     level: { type: String, required: true, default: '1'},
-    created: { type: Date, default: null }
+    created: { type: Date, default: null },
+    updated: { type: Date, default: null },
 });
 
 UserSchema.pre('save', async function (next) {

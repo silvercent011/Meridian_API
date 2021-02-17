@@ -42,6 +42,9 @@ app.use('/alunos', token, alunosRoute);
 // Users
 const usersRoute = require('./routes/users')
 app.use('/users', usersRoute)
+// Users
+const professoresRoute = require('./routes/professores')
+app.use('/professores', professoresRoute)
 // Posts
 const postsRoute = require('./routes/posts')
 app.use('/posts', postsRoute)

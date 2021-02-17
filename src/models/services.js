@@ -5,7 +5,7 @@ const ServiceSchema = ({
     // _id: {type: String, unique:true},
     matricula: {type: String, required:true},
     serviceName: {type: String, required:true},
-    data: {type: Map, of: Map},
+    data: {type: String, required:true},
     created: { type: Date, default: null },
     updated: { type: Date, default: null },
     enabled: { type: Boolean, default: true}

@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const keyCheck = require('../auth/auth')
+const jsonauth = require('../auth/jsonauth')
 const Services = require('../models/services')
 
 router.get('/', keyCheck ,async(req, res) => {
@@ -13,7 +14,7 @@ router.get('/', keyCheck ,async(req, res) => {
     }
 })
 
-router.get('/:matricula', keyCheck ,async (req, res) => {
+router.get('/:matricula' ,async (req, res) => {
     const info = req.params
     try {
         if (!await Services.find({ matricula: info.matricula })) return res.status(400).send({ error: 'Serviços não encontrados para o aluno.' })
@@ -25,7 +26,7 @@ router.get('/:matricula', keyCheck ,async (req, res) => {
 
 });
 
-router.post('/', keyCheck ,async (req, res) => {
+router.post('/', jsonauth ,async (req, res) => {
     // const { matricula } = req.body
     const data = req.body
     const created = Date.now()
@@ -37,11 +38,12 @@ router.post('/', keyCheck ,async (req, res) => {
         const query = await Services.create(data)
         return res.status(201).send(query)
     } catch (error) {
+        console.log(error)
         return res.status(400).send({ error: 'Erro ao cadastrar' })
     }
 });
 
-router.patch('/:id', keyCheck ,async(req,res) => {
+router.patch('/:id', jsonauth ,async(req,res) => {
     const _id = req.params.id
     const query = req.body
     const filter = {_id:_id}
@@ -50,17 +52,23 @@ router.patch('/:id', keyCheck ,async(req,res) => {
     try {
         if (! await Services.findOne({_id:_id})) return res.status(400).send({error: 'Serviço não encontrado nos registros'})
         const Service = await Services.findOne({_id:_id});
-        const data = { updated, query }
+        const data = { updated }
+        for (const key in query) {
+            if (Service[key] != query[key] ) {
+                data[key] = query[key];
+            }
+        }
         const dataUpdated = await Services.findOneAndUpdate(filter,data,{returnOriginal: false});
         return res.send(await Services.findOne({_id:_id}))
         
     } catch (error) {
+        console.log(error)
         return res.status(400).send({error: 'Não foi possível atualizar os dados do serviço no momento.'})
     }
 
 });
 
-router.delete('/:id', keyCheck , async(req,res) => {
+router.delete('/:id', jsonauth , async(req,res) => {
     const _id = req.params.id
     const filter = {_id:_id}
     const updated = Date.now()

@@ -11,6 +11,7 @@ const createUserToken = (userId) => {
 }
 
 const Users = require('../models/user');
+const jsonauth = require('../auth/jsonauth');
 
 router.get('/:id', token, async (req, res) => {
     info = req.params
@@ -21,6 +22,31 @@ router.get('/:id', token, async (req, res) => {
         return res.send(aluno)
     } catch (err) {
         return res.status(400).send({ error: "ERRO NA CONSULTA DE USUÁRIOS" })
+    }
+
+});
+
+router.patch('/:id', async(req,res) => {
+    const _id = req.params.id
+    const query = req.body
+    const filter = {_id:_id}
+    const updated = Date.now()
+
+    try {
+        if (! await Users.findOne({_id:_id})) return res.status(400).send({error: 'Usuario não encontrado nos registros'})
+        const Usuario = await Users.findOne({_id:_id});
+        const data = { updated }
+        for (const key in query) {
+            if (Usuario[key] != query[key] ) {
+                data[key] = query[key];
+            }
+        }
+
+        const dataUpdated = await Users.findOneAndUpdate(filter,data,{returnOriginal: false});
+        return res.send(await Users.findOne({_id:_id}))
+        
+    } catch (error) {
+        return res.status(400).send({error: 'Não foi possível atualizar os dados do Usuario no momento.'})
     }
 
 });
@@ -36,6 +62,24 @@ router.get('/', token, async (req, res) => {
 });
 
 router.post('/create', keyCheck, async (req, res) => {
+    const { email, password, nome, level, cpf } = req.body;
+
+    if (!email || !password || !nome || !level || !cpf) return res.status(400).send({ error: "Dados insuficientes" })
+
+    const created = Date.now()
+    const _id = cpf
+    const data = { _id, cpf, email, password, nome, created, level }
+
+    try {
+        const sendUser = await Users.create(data)
+        sendUser.password = undefined
+        return res.status(201).send({ sendUser, token: createUserToken(sendUser._id) });
+    } catch (err) {
+        return res.status(400).send({ error: "ERRO AO CADASTRAR USUÁRIO" });
+    }
+});
+
+router.post('/', token, async (req, res) => {
     const { email, password, nome, level, cpf } = req.body;
 
     if (!email || !password || !nome || !level || !cpf) return res.status(400).send({ error: "Dados insuficientes" })
