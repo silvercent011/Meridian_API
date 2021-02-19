@@ -76,9 +76,9 @@ router.delete('/:id', async(req,res) => {
 
     try {
         if (! await Professores.findOne({_id:_id})) return res.status(400).send({error: 'Professor não encontrado nos registros'})
-        const data = { enabled: false }
+        const data = { updated, enabled: false }
 
-        const dataUpdated = await Professores.findOneAndUpdate(filter,data,{returnOriginal: false});
+        const dataUpdated = await Professores.findOneAndDelete(filter);
         return res.send(await Professores.findOne({_id:_id}))
         
     } catch (error) {
