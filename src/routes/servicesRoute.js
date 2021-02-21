@@ -18,24 +18,24 @@ router.get('/:matricula' ,async (req, res) => {
     const info = req.params
     try {
         if (!await Services.find({ matricula: info.matricula })) return res.status(400).send({ error: 'Serviços não encontrados para o aluno.' })
-        if (await Services.find({ matricula: info.matricula, serviceName:info.serviceName })) return res.status(400).send({ error: 'Serviço já cadastrado para o aluno' })
         const query = await Services.find({ matricula: info.matricula });
         res.send(query)
     } catch (error) {
         res.status(400).send(error)
     }
-
+    
 });
 
 router.post('/', jsonauth ,async (req, res) => {
-    // const { matricula } = req.body
+    const { matricula, serviceName } = req.body
     const data = req.body
     const created = Date.now()
     data['created'] = created
     const {nome} = data
-
+    
     try {
         // if (await Services.findOne({_id:_id})) return res.status(400).send({error:'Serviços já localizados, utilize o PATCH para adicionar mais'})
+        if (await Services.find({ matricula: matricula, serviceName:serviceName })) return res.status(400).send({ error: 'Serviço já cadastrado para o aluno' })
         const query = await Services.create(data)
         return res.status(201).send(query)
     } catch (error) {
