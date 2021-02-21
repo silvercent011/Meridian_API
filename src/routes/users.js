@@ -119,4 +119,21 @@ router.post('/auth', async (req, res) => {
     }
 });
 
+
+router.delete('/:id', jsonauth , async(req,res) => {
+    const _id = req.params.id
+    const filter = {_id:_id}
+
+    try {
+        if (! await Users.findOne({_id:_id})) return res.status(400).send({error: 'Usuário não encontrado nos registros'})
+
+        const dataUpdated = await Users.findOneAndDelete(filter);
+        return res.send(dataUpdated)
+        
+    } catch (error) {
+        return res.status(400).send({error: 'Não foi possível apagar o usuário.'})
+    }
+
+});
+
 module.exports = router;
