@@ -18,6 +18,7 @@ router.get('/:matricula' ,async (req, res) => {
     const info = req.params
     try {
         if (!await Services.find({ matricula: info.matricula })) return res.status(400).send({ error: 'Serviços não encontrados para o aluno.' })
+        if (await Services.find({ matricula: info.matricula, serviceName:info.serviceName })) return res.status(400).send({ error: 'Serviço já cadastrado para o aluno' })
         const query = await Services.find({ matricula: info.matricula });
         res.send(query)
     } catch (error) {
